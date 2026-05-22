@@ -1,76 +1,32 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>رسالة</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fdf6f0;
-    font-family: 'Tajawal', sans-serif;
-    padding: 24px;
-  }
-  .card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 40px 32px;
-    max-width: 420px;
-    width: 100%;
-    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
-    text-align: center;
-  }
-  .icon { font-size: 48px; margin-bottom: 16px; }
-  .from {
-    font-size: 13px;
-    color: #b08d7a;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  .to {
-    font-size: 22px;
-    font-weight: 700;
-    color: #3d2b1f;
-    margin-bottom: 28px;
-  }
-  .divider {
-    width: 40px;
-    height: 2px;
-    background: #f0c4a8;
-    margin: 0 auto 28px;
-    border-radius: 2px;
-  }
-  .message {
-    font-size: 17px;
-    color: #5a3e35;
-    line-height: 2;
-    font-weight: 400;
-  }
-  .footer {
-    margin-top: 32px;
-    font-size: 12px;
-    color: #c9a899;
-  }
+  body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #fdf6f0; gap: 20px; padding: 24px; box-sizing: border-box; }
+  canvas { border-radius: 12px; background: #fff; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  p { color: #b08d7a; font-size: 14px; direction: rtl; text-align: center; }
+  button { padding: 10px 24px; background: #3d2b1f; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="icon">🤍</div>
-  <div class="from">من كلثم</div>
-  <div class="to">إلى الحلوه عاشه مبارك</div>
-  <div class="divider"></div>
-  <div class="message">
-    انتِ كنت اللي تسوين جو في الصف وتضحكينا وأنا دايماً أتذكرچ بالخير.<br><br>
-    واتذكر لما قبل مع مس رجاء في حصة العربي كنتي تلبسين نفس لون عبايتها وبعدين تقلدينها وااااايد كنت اضحك من داخلي 😄<br><br>
-    وبعد في أشياء راح تتم ذكره في مخي الأبد.
-  </div>
-  <div class="footer">💌 رسالة خاصة</div>
-</div>
+<canvas id="qr"></canvas>
+<p>رسالة عاشه مبارك — من كلثم</p>
+<button onclick="downloadQR()">تحميل QR</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+new QRious({
+  element: document.getElementById("qr"),
+  value: "https://y0ws.github.io/qr-messages/?id=ashe",
+  size: 256,
+  level: "M"
+});
+function downloadQR() {
+  const a = document.createElement("a");
+  a.href = document.getElementById("qr").toDataURL("image/png");
+  a.download = "qr-ashe.png";
+  a.click();
+}
+</script>
 </body>
 </html>
