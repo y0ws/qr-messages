@@ -7,75 +7,44 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fdf6f0;
-    font-family: 'Tajawal', sans-serif;
-    padding: 24px;
-  }
-  .card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 40px 32px;
-    max-width: 420px;
-    width: 100%;
-    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
-    text-align: center;
-  }
+  body { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #fdf6f0; font-family: 'Tajawal', sans-serif; padding: 24px; }
+  .card { background: #fff; border-radius: 24px; padding: 40px 32px; max-width: 420px; width: 100%; box-shadow: 0 4px 40px rgba(0,0,0,0.08); text-align: center; }
   .icon { font-size: 48px; margin-bottom: 16px; }
   .from { font-size: 13px; color: #b08d7a; letter-spacing: 1px; margin-bottom: 8px; font-weight: 500; }
   .to { font-size: 22px; font-weight: 700; color: #3d2b1f; margin-bottom: 28px; }
   .divider { width: 40px; height: 2px; background: #f0c4a8; margin: 0 auto 28px; border-radius: 2px; }
-  .message { font-size: 17px; color: #5a3e35; line-height: 2; }
+  .message { font-size: 17px; color: #5a3e35; line-height: 2; white-space: pre-wrap; }
   .footer { margin-top: 32px; font-size: 12px; color: #c9a899; }
-  .not-found { font-size: 18px; color: #b08d7a; }
 </style>
 </head>
 <body>
 <div class="card" id="card">
   <div class="icon">🤍</div>
-  <div class="from" id="from"></div>
+  <div class="from">من كلثم</div>
   <div class="to" id="to"></div>
   <div class="divider"></div>
   <div class="message" id="message"></div>
   <div class="footer">💌 رسالة خاصة</div>
 </div>
 <script>
-const messages = {
-  "x7k2m9": {
-    from: "من كلثم",
-    to: "إلى الحلوه عاشه مبارك",
-    text: `انتِ كنت اللي تسوين جو في الصف و تضحكينا وأنا دايماً أتذكرچ بالخير واتذكر لما قبل مع مس رجاء في حصة العربي كنتي تلبسين نفس لون عبايتها وبعدين تقلدينها وااااايد كنت اضحك من داخلي و بعد في أشياء راح تتم ذكره في مخي الأبد`
-  },
-  "p4n8q1": {
-    from: "من كلثم",
-    to: "إلى الجميلة عائشه راشد",
-    text: `انتِ تضيفين طابع حلو وهادي على الصف و معاچ ذكريات حلوه نفس يوم تصوير التخرج و بعد واااaaaايد أشياء<br><br>اكثر وأنتي راح اذكرچ طول عمري بصفاتچ الحلوه`
-  },
-  "h6r3t5": {
-    from: "من كلثم",
-    to: "إلى الغالية ألمها سالم",
-    text: `كان جو الصف معاچ واaaaايد حلو و أنا كنت مستانسه إني كنت معاچ في الصف و احبچ واaaaايد`
-  },
-  "w1j5f8": {
-    from: "من كلثم",
-    to: "إلى ايلينا سمير 💖",
-    text: `أنا احبچ واaaaايد واتذكرچ لما سوينا مع بعض الابرزنتيشن مال الكمبيوتر 💻 و بعد في ذكريات أكثر بس هي راح تظل محفوظه في مخي و احبچ وما بنساچ`
-  }
-};
-
 const id = new URLSearchParams(window.location.search).get("id");
-const msg = messages[id];
-if (msg) {
-  document.getElementById("from").textContent = msg.from;
-  document.getElementById("to").textContent = msg.to;
-  document.getElementById("message").innerHTML = msg.text;
+const card = document.getElementById("card");
+
+if (!id) {
+  card.style.display = 'none';
 } else {
-  document.getElementById("card").innerHTML = '';
-  document.getElementById("card").style.display = 'none';
+  fetch('messages.json')
+    .then(r => r.json())
+    .then(data => {
+      const msg = data[id];
+      if (msg) {
+        document.getElementById("to").textContent = msg.to;
+        document.getElementById("message").textContent = msg.text;
+      } else {
+        card.style.display = 'none';
+      }
+    })
+    .catch(() => { card.style.display = 'none'; });
 }
 </script>
 </body>
