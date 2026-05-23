@@ -80,17 +80,71 @@ function renderCards(messages) {
       <div class="card-id">${url}</div>
       <div class="qr-wrap"><canvas id="qr-${id}"></canvas></div>
       <div class="qr-label">${msg.to}<br><span>لديكِ رسالة خاصة 💌</span></div>
-      <button class="dl-btn" onclick="dlQR('${id}')">تحميل QR</button>
+      <button class="dl-btn" onclick="dlQR('${id}', \`${msg.to}\`)">تحميل QR</button>
     `;
     card.querySelector('.card-msg').textContent = msg.text;
     grid.appendChild(card);
-    new QRious({ element: document.getElementById("qr-" + id), value: url, size: 160, level: "M" });
+    new QRious({ element: document.getElementById("qr-" + id), value: url, size: 260, level: "M", foreground: "#3d2b1f", background: "#ffffff" });
   });
 }
 
-function dlQR(id) {
+function dlQR(id, to) {
+  const qrCanvas = document.getElementById("qr-" + id);
+  const size = 260;
+  const pad = 28;
+  const topH = 80;
+  const botH = 90;
+  const W = size + pad * 2;
+  const H = size + pad * 2 + topH + botH;
+
+  const c = document.createElement("canvas");
+  c.width = W; c.height = H;
+  const ctx = c.getContext("2d");
+
+  // background
+  ctx.fillStyle = "#fdf6f0";
+  ctx.beginPath();
+  ctx.roundRect(0, 0, W, H, 20);
+  ctx.fill();
+
+  // top text
+  ctx.fillStyle = "#b08d7a";
+  ctx.font = "500 13px 'Tajawal', sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("من كلثم 🤍", W/2, 34);
+
+  ctx.fillStyle = "#3d2b1f";
+  ctx.font = "700 17px 'Tajawal', sans-serif";
+  ctx.fillText(to, W/2, 62);
+
+  // divider
+  ctx.strokeStyle = "#f0c4a8";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(W/2 - 30, 72);
+  ctx.lineTo(W/2 + 30, 72);
+  ctx.stroke();
+
+  // QR border
+  ctx.fillStyle = "#fff";
+  ctx.beginPath();
+  ctx.roundRect(pad - 10, topH + pad - 10, size + 20, size + 20, 14);
+  ctx.fill();
+
+  // QR
+  ctx.drawImage(qrCanvas, pad, topH + pad, size, size);
+
+  // bottom text
+  const bY = topH + pad + size + pad + 14;
+  ctx.fillStyle = "#3d2b1f";
+  ctx.font = "700 15px 'Tajawal', sans-serif";
+  ctx.fillText("لديكِ رسالة خاصة 💌", W/2, bY);
+  ctx.fillStyle = "#b08d7a";
+  ctx.font = "400 12px 'Tajawal', sans-serif";
+  ctx.fillText("افتحي الكود لتقرئي رسالتك", W/2, bY + 24);
+
   const a = document.createElement("a");
-  a.href = document.getElementById("qr-" + id).toDataURL("image/png");
+  a.href = c.toDataURL("image/png");
   a.download = "qr-" + id + ".png";
   a.click();
 }
