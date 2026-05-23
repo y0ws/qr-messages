@@ -25,6 +25,8 @@
   .card-msg { font-size: 13px; color: #5a3e35; line-height: 1.7; margin-bottom: 14px; white-space: pre-wrap; flex-grow: 1; }
   .card-id { font-size: 11px; color: #c9a899; margin-bottom: 10px; direction: ltr; text-align: center; word-break: break-all; }
   .qr-wrap { display: flex; justify-content: center; margin-bottom: 12px; }
+  .qr-label { text-align: center; font-size: 14px; font-weight: 700; color: #3d2b1f; margin-bottom: 12px; line-height: 1.8; }
+  .qr-label span { font-size: 12px; color: #b08d7a; font-weight: 400; }
   .dl-btn { width: 100%; padding: 10px; background: #fdf6f0; color: #3d2b1f; border: 1px solid #e8d5c8; border-radius: 10px; font-size: 13px; cursor: pointer; font-family: 'Tajawal', sans-serif; }
   .dl-btn:hover { background: #f5e6da; }
 </style>
@@ -77,6 +79,7 @@ function renderCards(messages) {
       <div class="card-msg"></div>
       <div class="card-id">${url}</div>
       <div class="qr-wrap"><canvas id="qr-${id}"></canvas></div>
+      <div class="qr-label">${msg.to}<br><span>لديكِ رسالة خاصة 💌</span></div>
       <button class="dl-btn" onclick="dlQR('${id}')">تحميل QR</button>
     `;
     card.querySelector('.card-msg').textContent = msg.text;
